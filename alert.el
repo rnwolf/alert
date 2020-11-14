@@ -960,13 +960,22 @@ This is found at https://github.com/nels-o/toaster."
 
 (defun alert-toaster-notify (info)
   (if alert-toaster-command
-      (let ((args (list
-                   " --title  \"My Title\"" 
-                   " --message \"My Message\""
-                   ;;"-p" (expand-file-name (or (plist-get info :icon) alert-toaster-default-icon))
-                   )))
-        (apply #'call-process alert-toaster-command nil nil nil args))
-    (alert-message-notify info)))
+      (
+      (let*
+      ((toast "toast64")
+       (t-title (concat " --title \"" (alert-encode-string (plist-get info :title))  ))
+       (t-message (concat "\" --message \"" (alert-encode-string (plist-get info :message))  ))
+       (t-image (concat "\" --icon \"C:\\Program Files\\Emacs\\x86_64\\share\\emacs\\27.1\\etc\\images\\icons\\hicolor\\128x128\\apps\\emacs.png\""))
+       (t-duration (concat " --duration \"medium\""))
+       (t-appid (concat " --app-id \"EMACS alert\""))
+       (t-audio (concat " --audio \"default\""))
+       (my-command (concat toast t-title t-message t-image t-audio t-duration t-appid)))
+    (call-process-shell-command my-command))
+        
+        )
+    (alert-message-notify info)
+    )
+  )
 
 (alert-define-style 'toaster :title "Notify using Toaster"
                     :notifier #'alert-toaster-notify)
