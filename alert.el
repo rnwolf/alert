@@ -961,8 +961,8 @@ This is found at https://github.com/nels-o/toaster."
 (defun alert-toaster-notify (info)
   (if alert-toaster-command
       (let ((args (list
-                   " --title" (alert-encode-string (plist-get info :title))
-                   " --message" (alert-encode-string (plist-get info :message))
+                   " --title  \"My Title\"" ))
+                   " --message" \"My Message\"")
                    ;;"-p" (expand-file-name (or (plist-get info :icon) alert-toaster-default-icon))
                    )))
         (apply #'call-process alert-toaster-command nil nil nil args))
