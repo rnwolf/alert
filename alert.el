@@ -951,7 +951,7 @@ not change display, depending on the window manager)."
   :group 'alert
   )
 
-(defcustom alert-toaster-command (executable-find "toast")
+(defcustom alert-toaster-command (executable-find "toast64")
   "Path to the toast command.
 This is found at https://github.com/nels-o/toaster."
   :type 'file
@@ -961,9 +961,9 @@ This is found at https://github.com/nels-o/toaster."
 (defun alert-toaster-notify (info)
   (if alert-toaster-command
       (let ((args (list
-                   "-t" (alert-encode-string (plist-get info :title))
-                   "-m" (alert-encode-string (plist-get info :message))
-                   "-p" (expand-file-name (or (plist-get info :icon) alert-toaster-default-icon))
+                   " --title" (alert-encode-string (plist-get info :title))
+                   " --message" (alert-encode-string (plist-get info :message))
+                   ;;"-p" (expand-file-name (or (plist-get info :icon) alert-toaster-default-icon))
                    )))
         (apply #'call-process alert-toaster-command nil nil nil args))
     (alert-message-notify info)))
