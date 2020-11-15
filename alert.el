@@ -953,33 +953,23 @@ not change display, depending on the window manager)."
 
 (defcustom alert-toaster-command (executable-find "toast64")
   "Path to the toast command.
-This is found at https://github.com/nels-o/toaster."
+This is found at https://github.com/go-toast/toast."
   :type 'file
   :group 'alert
   )
-
-(defun my-alert (title message)
-  "shows popup with a MESSAGE"
-  (when (and message (eq system-type 'windows-nt))
-    (call-process (executable-find "toast64")
-                  nil nil nil
-                  "--title"
-                  (concat title )
-                  "--message"
-                  (concat message )
-                  )))
 
 (defun alert-toaster-notify (info)
   (if alert-toaster-command
       (let ((args (list
                    "--title" (alert-encode-string (plist-get info :title))
                    "--message" (alert-encode-string (plist-get info :message))
+                   "--icon" (concat "C:\\Program Files\\Emacs\\x86_64\\share\\emacs\\27.1\\etc\\images\\icons\\hicolor\\128x128\\apps\\emacs.png")
+		   "--app-id" (concat "Emacs")
+		   "--audio" (concat "default")
                    )))
         (apply #'call-process alert-toaster-command nil nil nil args)
 	)
     (alert-message-notify info)
-    (my-alert "(plist-get info :title)" "(plist-get info :message)" )   
-
       ))
 
 (alert-define-style 'toaster :title "Notify using Toaster"
