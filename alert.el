@@ -972,14 +972,15 @@ This is found at https://github.com/nels-o/toaster."
 (defun alert-toaster-notify (info)
   (if alert-toaster-command
       (let ((args (list
-                   "-t" (alert-encode-string (plist-get info :title))
-                   "-m" (alert-encode-string (plist-get info :message))
-                   "-p" (expand-file-name (or (plist-get info :icon) alert-toaster-default-icon))
+                   "--title" (alert-encode-string (plist-get info :title))
+                   "--message" (alert-encode-string (plist-get info :message))
                    )))
-        ;;(apply #'call-process alert-toaster-command nil nil nil args)
-	(my-alert (alert-encode-string (plist-get info :title)) (alert-encode-string (plist-get info :message))  )   
+        (apply #'call-process alert-toaster-command nil nil nil args)
 	)
-    (alert-message-notify info)))
+    (alert-message-notify info)
+    (my-alert "(plist-get info :title)" "(plist-get info :message)" )   
+
+      ))
 
 (alert-define-style 'toaster :title "Notify using Toaster"
                     :notifier #'alert-toaster-notify)
